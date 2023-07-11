@@ -1,7 +1,7 @@
 from typing import Dict, Any, Tuple
 
 from api.search import Search
-from api.fetch import FetchDrama, FetchList, FetchPerson, FetchCast, FetchReviews
+from api.fetch import FetchDrama, FetchList, FetchPerson, FetchCast, FetchReviews, FetchEpisode
 
 
 def error(code: int, description: str) -> Dict[str, Any]:
@@ -31,6 +31,7 @@ fs = {
     "cast": FetchCast,
     "reviews": FetchReviews,
     "lists": FetchList,
+    "episodes": FetchEpisode
 }
 
 

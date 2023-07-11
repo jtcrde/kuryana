@@ -350,6 +350,37 @@ class FetchReviews(BaseFetch):
     def _get(self) -> None:
         self._get_main_container()
 
+class FetchEpisode(BaseFetch):
+    def __init__(self, soup: BeautifulSoup, query: str, code: int, ok: bool) -> None:
+        super().__init__(soup, query, code, ok)
+
+    def _get_main_container(self) -> None:
+        container = self.soup.find("div", class_="app-body")
+
+        # append scraped data
+        # these are the most important drama infos / details
+
+        regex = r"Episode (\d+)"
+        __temp_episodes = container.find_all("h2", class_="title")
+        __temp_episode_list = []
+        for __temp_episode in __temp_episodes:
+            # print(__temp_episode.find("a").text)
+            result = re.search(regex, __temp_episode.find("a").text)
+            # __temp_episode_list.append(__temp_episode.find("a").text)
+            __temp_episode_list.append(result.group(1))
+
+        __temp_episodes_dates = container.find_all("div", class_="meta p-b-xs")
+        __temp_episodes_date_list = []
+        for __temp_episodes_date in __temp_episodes_dates:
+            # print(__temp_episodes_date.find("div", class_="air-date").text)
+            __temp_episodes_date_list.append(__temp_episodes_date.find("div", class_="air-date").text)
+
+        res = dict(zip(__temp_episode_list, __temp_episodes_date_list))
+        self.info['episodes'] = res
+
+    def _get(self) -> None:
+        self._get_main_container()
+
 
 class FetchList(BaseFetch):
     def __init__(self, soup: BeautifulSoup, query: str, code: int, ok: bool) -> None:
