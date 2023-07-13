@@ -375,7 +375,13 @@ class FetchEpisode(BaseFetch):
             # print(__temp_episodes_date.find("div", class_="air-date").text)
             __temp_episodes_date_list.append(__temp_episodes_date.find("div", class_="air-date").text)
 
-        res = dict(zip(__temp_episode_list, __temp_episodes_date_list))
+        res = []
+        for i in range(0, len(__temp_episode_list)):
+            episodeDict = {}
+            episodeDict['episode'] = __temp_episode_list[i]
+            episodeDict['episode_date'] = __temp_episodes_date_list[i]
+            res.append(episodeDict)
+
         self.info['episodes'] = res
 
     def _get(self) -> None:
